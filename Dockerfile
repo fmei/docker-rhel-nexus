@@ -11,6 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# Dockerfile.rhel7
 
 FROM       registry.access.redhat.com/rhel7/rhel
 MAINTAINER Sonatype <cloud-ops@sonatype.com>
@@ -58,7 +60,7 @@ ENV NEXUS_DATA=/nexus-data \
     SONATYPE_WORK=${SONATYPE_DIR}/sonatype-work \
     NEXUS_CONTEXT='' \
     USER_NAME=nexus \
-    USER_UID=200
+    USER_UID=1200
 
 # Install Nexus and Configure Nexus Runtime Environment
 RUN mkdir -p ${NEXUS_HOME} && \
