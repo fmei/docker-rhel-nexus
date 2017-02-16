@@ -79,9 +79,17 @@ RUN mkdir -p ${NEXUS_HOME} && \
             -c "${USER_NAME} application user" ${USER_NAME} && \
             mkdir -p ${NEXUS_DATA}/etc ${NEXUS_DATA}/log ${NEXUS_DATA}/tmp ${SONATYPE_WORK} && \
             ln -s ${NEXUS_DATA} ${SONATYPE_WORK}/nexus3 && \
-            chown -R nexus:nexus ${NEXUS_DATA}
+            chown -R nexus:nexus ${NEXUS_DATA}       
 
 VOLUME ${NEXUS_DATA}
+
+# fix permissions
+COPY usr/local/bin/fix-permissions.sh /usr/local/bin/
+RUN /usr/local/bin/fix-permissions.sh /usr/local/bin \
+  && /usr/local/bin/fix-permissions.sh /opt/sonatype \
+  && chmod 775 /usr/local/bin/* \
+  && chown nexus:nexus /usr/local/bin/* \
+  && chown -R nexus:nexus /opt/sonatype
 
 # Supply non variable to USER command ${USER_NAME}
 USER nexus
