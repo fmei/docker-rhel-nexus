@@ -85,7 +85,8 @@ VOLUME ${NEXUS_DATA}
 
 # fix permissions
 COPY usr/local/bin/fix-permissions.sh /usr/local/bin/
-RUN /usr/local/bin/fix-permissions.sh /usr/local/bin \
+RUN chmod +x /usr/local/bin/fix-permissions.sh \
+  && /usr/local/bin/fix-permissions.sh /usr/local/bin \
   && /usr/local/bin/fix-permissions.sh /opt/sonatype \
   && chmod 775 /usr/local/bin/* \
   && chown nexus:nexus /usr/local/bin/* \
