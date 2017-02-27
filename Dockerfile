@@ -91,6 +91,11 @@ RUN chmod 555 /usr/local/bin/fix-permissions.sh \
   && chmod 775 /usr/local/bin/* \
   && chown nexus:nexus /usr/local/bin/* \
   && chown -R nexus:nexus /opt/sonatype
+  
+# fix permissions for systemPrefs
+RUN mkdir -p /etc/.java/.systemPrefs \
+      && chmod -R 777 /etc/.java/.systemPrefs 
+
 
 # Supply non variable to USER command ${USER_NAME}
 USER nexus
