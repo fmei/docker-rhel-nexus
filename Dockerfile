@@ -92,9 +92,17 @@ RUN chmod 555 /usr/local/bin/fix-permissions.sh \
   && chown nexus:nexus /usr/local/bin/* \
   && chown -R nexus:nexus /opt/sonatype
   
-# fix permissions for systemPrefs
+# fix permissions for systemPrefs, create systemPrefs alternative foldes
 RUN mkdir -p /etc/.java/.systemPrefs \
-      && chmod -R 777 /etc/.java/.systemPrefs 
+      && chmod -R 777 /etc/.java/.systemPrefs \
+      && mkdir -p /etc/systemPrefs/system \
+      && mkdir -p /etc/systemPrefs/local \
+      && chmod -R 777 /etc/systemPrefs/
+      
+# reconfigure system prefs paths
+RUN echo "-Djava.util.prefs.userRoot=/etc/systemPrefs/local" >> /opt/sonatype/nexus/bin/nexus.vmoptions \
+      && echo "-Djava.util.prefs.systemRoot=/etc/systemPrefs/system" >> /opt/sonatype/nexus/bin/nexus.vmoptions
+
 
 
 # Supply non variable to USER command ${USER_NAME}
